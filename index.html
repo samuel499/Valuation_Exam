@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineering Valuation Examination</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="page-shell">
+        <main>
+            <section id="start-screen" class="panel start-panel">
+                <div class="panel-heading">
+                    <h1>Engineering Valuation Examination</h1>
+                    <p>Enter your details to begin.</p>
+                </div>
+
+                <form id="access-form" class="access-form">
+                    <div class="form-grid">
+                        <label class="field-group" for="student-name">
+                            <span>Student Name</span>
+                            <input id="student-name" name="student-name" type="text" autocomplete="name" placeholder="Enter full name">
+                        </label>
+
+                        <label class="field-group" for="access-code">
+                            <span>Access Code</span>
+                            <input id="access-code" name="access-code" type="password" inputmode="numeric" placeholder="Enter code">
+                        </label>
+                    </div>
+
+                    <p id="access-message" class="access-message hidden"></p>
+
+                    <div class="stats-grid">
+                        <article class="stat-card">
+                            <span class="stat-label">Question Bank</span>
+                            <strong id="bank-size">500</strong>
+                        </article>
+                        <article class="stat-card">
+                            <span class="stat-label">Questions Per Exam</span>
+                            <strong>60</strong>
+                        </article>
+                        <article class="stat-card">
+                            <span class="stat-label">Time Limit</span>
+                            <strong>30 mins</strong>
+                        </article>
+                    </div>
+
+                    <button id="start-exam-button" class="primary-button" type="submit">Start Examination</button>
+                </form>
+            </section>
+
+            <section id="exam-screen" class="exam-layout hidden">
+                <aside class="panel exam-sidebar">
+                    <div class="sidebar-block">
+                        <span class="sidebar-label">Student</span>
+                        <strong id="student-display" class="student-display"></strong>
+                    </div>
+
+                    <div class="sidebar-block">
+                        <span class="sidebar-label">Time Remaining</span>
+                        <strong id="timer-display" class="timer-display">30:00</strong>
+                    </div>
+
+                    <div class="sidebar-block">
+                        <span class="sidebar-label">Progress</span>
+                        <p id="progress-summary" class="progress-summary">0 of 60 answered</p>
+                        <div class="progress-bar">
+                            <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-block">
+                        <div class="sidebar-header">
+                            <span class="sidebar-label">Question Palette</span>
+                            <span class="legend-text">Current / Answered</span>
+                        </div>
+                        <div id="question-palette" class="question-palette"></div>
+                    </div>
+
+                    <button id="submit-exam-button" class="secondary-button">Submit Exam</button>
+                </aside>
+
+                <section class="panel question-panel">
+                    <div class="question-header">
+                        <span id="question-index" class="question-index">Question 1 of 60</span>
+                        <span id="question-status" class="question-status">Not answered</span>
+                    </div>
+
+                    <h2 id="question-text" class="question-text"></h2>
+                    <form id="options-form" class="options-list"></form>
+
+                    <div class="question-actions">
+                        <button id="previous-button" class="ghost-button" type="button">Previous</button>
+                        <button id="next-button" class="primary-button" type="button">Next</button>
+                    </div>
+                </section>
+            </section>
+
+            <section id="results-screen" class="panel hidden">
+                <div class="results-top">
+                    <div>
+                        <p class="eyebrow">Results</p>
+                        <h2>Examination Complete</h2>
+                        <p id="student-results-name" class="student-results-name"></p>
+                        <p id="results-summary" class="results-summary"></p>
+                    </div>
+                    <div class="score-card">
+                        <span>Score</span>
+                        <strong id="score-display">0 / 60</strong>
+                        <small id="score-percent">0%</small>
+                    </div>
+                </div>
+
+                <div class="results-actions">
+                    <button id="restart-button" class="primary-button">Return to Start Screen</button>
+                    <div class="filter-buttons">
+                        <button class="filter-button active" data-filter="wrong">Wrong Answers</button>
+                        <button class="filter-button" data-filter="all">All Questions</button>
+                        <button class="filter-button" data-filter="correct">Correct Only</button>
+                        <button class="filter-button" data-filter="unanswered">Unanswered</button>
+                    </div>
+                </div>
+
+                <div id="review-list" class="review-list"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
