@@ -200,6 +200,29 @@ function chooseRandomClusterSubset(targetCount) {
     return solve(0, targetCount);
 }
 
+function randomizeQuestionOptions(question) {
+    const optionEntries = Object.entries(question.options);
+    const shuffledEntries = shuffleArray(optionEntries);
+    const optionKeys = ["A", "B", "C", "D"];
+    const randomizedOptions = {};
+    let randomizedAnswer = question.answer;
+
+    shuffledEntries.forEach(([originalKey, value], index) => {
+        const newKey = optionKeys[index];
+        randomizedOptions[newKey] = value;
+
+        if (originalKey === question.answer) {
+            randomizedAnswer = newKey;
+        }
+    });
+
+    return {
+        ...question,
+        options: randomizedOptions,
+        answer: randomizedAnswer
+    };
+}
+
 function pickRandomQuestions() {
     const selectedClusters = chooseRandomClusterSubset(EXAM_QUESTION_COUNT);
 
@@ -207,10 +230,12 @@ function pickRandomQuestions() {
         throw new Error("Unable to generate an exam with the requested question count.");
     }
 
-    return selectedClusters.flat().map((question) => ({
-        ...question,
-        options: { ...question.options }
-    }));
+    return selectedClusters
+        .flat()
+        .map((question) => randomizeQuestionOptions({
+            ...question,
+            options: { ...question.options }
+        }));
 }
 
 function formatTime(totalSeconds) {
