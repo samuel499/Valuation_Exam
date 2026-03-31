@@ -291,6 +291,29 @@ label {
     background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,253,248,0.95));
 }
 
+.mobile-exam-bar {
+    display: none;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.mobile-exam-pill {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: var(--panel-strong);
+    border: 1px solid var(--line);
+}
+
+.mobile-timer-display,
+.mobile-progress-display {
+    display: block;
+    margin-top: 6px;
+    font-size: 1.3rem;
+    color: var(--accent-dark);
+}
+
 .question-header {
     display: flex;
     justify-content: space-between;
@@ -392,8 +415,14 @@ label {
 }
 
 .review-card {
-    padding: 20px;
+    padding: 0;
     background: var(--panel-strong);
+    overflow: hidden;
+}
+
+.review-card > .results-summary {
+    margin: 0;
+    padding: 20px;
 }
 
 .review-card.correct {
@@ -406,6 +435,41 @@ label {
 
 .review-card.unanswered {
     border-left: 6px solid var(--warning);
+}
+
+.review-summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+    padding: 18px 20px;
+    cursor: pointer;
+}
+
+.review-summary::-webkit-details-marker {
+    display: none;
+}
+
+.review-summary::after {
+    content: "+";
+    flex-shrink: 0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--accent-dark);
+}
+
+.review-card[open] .review-summary::after {
+    content: "-";
+}
+
+.review-summary-text {
+    display: grid;
+    gap: 6px;
+}
+
+.review-body {
+    padding: 0 20px 20px;
 }
 
 .review-question {
@@ -516,6 +580,28 @@ label {
     .filter-buttons {
         width: 100%;
     }
+
+    .mobile-exam-bar {
+        display: flex;
+    }
+
+    .exam-sidebar .sidebar-block:first-child,
+    .exam-sidebar .sidebar-block:nth-child(2) {
+        display: none;
+    }
+
+    .question-header {
+        margin-bottom: 16px;
+    }
+
+    .review-summary {
+        padding: 16px;
+        align-items: flex-start;
+    }
+
+    .review-body {
+        padding: 0 16px 16px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -539,6 +625,21 @@ label {
     }
 
     .question-text {
+        font-size: 1.1rem;
+    }
+
+    .mobile-exam-bar {
+        position: sticky;
+        top: 10px;
+        z-index: 5;
+    }
+
+    .mobile-exam-pill {
+        padding: 12px 14px;
+    }
+
+    .mobile-timer-display,
+    .mobile-progress-display {
         font-size: 1.1rem;
     }
 }

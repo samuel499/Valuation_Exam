@@ -20,9 +20,11 @@ const restartButton = document.getElementById("restart-button");
 const studentDisplay = document.getElementById("student-display");
 const studentResultsName = document.getElementById("student-results-name");
 const timerDisplay = document.getElementById("timer-display");
+const mobileTimerDisplay = document.getElementById("mobile-timer-display");
 const progressSummary = document.getElementById("progress-summary");
 const progressBarFill = document.getElementById("progress-bar-fill");
 const questionPalette = document.getElementById("question-palette");
+const mobileProgressDisplay = document.getElementById("mobile-progress-display");
 const questionPanel = document.querySelector(".question-panel");
 const questionIndex = document.getElementById("question-index");
 const questionStatus = document.getElementById("question-status");
@@ -246,11 +248,16 @@ function updateProgress() {
     const answeredCount = getAnsweredCount();
     progressSummary.textContent = `${answeredCount} of ${EXAM_QUESTION_COUNT} answered`;
     progressBarFill.style.width = `${(answeredCount / EXAM_QUESTION_COUNT) * 100}%`;
+    mobileProgressDisplay.textContent = `${answeredCount} / ${EXAM_QUESTION_COUNT}`;
 }
 
 function updateTimer() {
-    timerDisplay.textContent = formatTime(examState.timeRemaining);
-    timerDisplay.style.color = examState.timeRemaining <= 300 ? "var(--danger)" : "var(--accent-dark)";
+    const formattedTime = formatTime(examState.timeRemaining);
+    const timerColor = examState.timeRemaining <= 300 ? "var(--danger)" : "var(--accent-dark)";
+    timerDisplay.textContent = formattedTime;
+    timerDisplay.style.color = timerColor;
+    mobileTimerDisplay.textContent = formattedTime;
+    mobileTimerDisplay.style.color = timerColor;
 }
 
 function renderPalette() {
@@ -412,16 +419,23 @@ function renderReview(filter = "wrong") {
 
     items.forEach((entry) => {
         const { question, selected, status, index } = entry;
-        const card = document.createElement("article");
+        const card = document.createElement("details");
         card.className = `review-card ${status}`;
+        card.open = window.innerWidth > 720;
 
-        const heading = document.createElement("div");
+        const heading = document.createElement("summary");
+        heading.className = "review-summary";
         heading.innerHTML = `
-            <strong>Question ${index}</strong>
-            <div class="review-meta">
-                Your answer: ${selected || "Not answered"} | Correct answer: ${question.answer}
+            <div class="review-summary-text">
+                <strong>Question ${index}</strong>
+                <div class="review-meta">
+                    Your answer: ${selected || "Not answered"} | Correct answer: ${question.answer}
+                </div>
             </div>
         `;
+
+        const body = document.createElement("div");
+        body.className = "review-body";
 
         const prompt = document.createElement("p");
         prompt.className = "review-question";
@@ -450,10 +464,12 @@ function renderReview(filter = "wrong") {
         note.className = "review-note";
         note.textContent = question.explanation || `Correct answer: ${question.answer}`;
 
+        body.appendChild(prompt);
+        body.appendChild(optionList);
+        body.appendChild(note);
+
         card.appendChild(heading);
-        card.appendChild(prompt);
-        card.appendChild(optionList);
-        card.appendChild(note);
+        card.appendChild(body);
         reviewList.appendChild(card);
     });
 }
