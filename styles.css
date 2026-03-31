@@ -178,6 +178,15 @@ label {
     transform: translateY(-1px);
 }
 
+.primary-button:disabled,
+.secondary-button:disabled,
+.ghost-button:disabled,
+.filter-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
 .primary-button {
     background: var(--accent);
     color: #fff;

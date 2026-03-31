@@ -224,6 +224,10 @@ function getAnsweredCount() {
     return Object.keys(examState.answers).length;
 }
 
+function allQuestionsAnswered() {
+    return getAnsweredCount() === EXAM_QUESTION_COUNT;
+}
+
 function getCurrentQuestion() {
     return examState.questions[examState.currentIndex];
 }
@@ -249,6 +253,7 @@ function updateProgress() {
     progressSummary.textContent = `${answeredCount} of ${EXAM_QUESTION_COUNT} answered`;
     progressBarFill.style.width = `${(answeredCount / EXAM_QUESTION_COUNT) * 100}%`;
     mobileProgressDisplay.textContent = `${answeredCount} / ${EXAM_QUESTION_COUNT}`;
+    submitExamButton.disabled = !allQuestionsAnswered();
 }
 
 function updateTimer() {
@@ -331,6 +336,7 @@ function renderQuestion() {
 
     previousButton.disabled = examState.currentIndex === 0;
     nextButton.textContent = examState.currentIndex === EXAM_QUESTION_COUNT - 1 ? "Finish" : "Next";
+    nextButton.disabled = examState.currentIndex === EXAM_QUESTION_COUNT - 1 && !allQuestionsAnswered();
 
     updateProgress();
     renderPalette();
@@ -579,6 +585,10 @@ nextButton.addEventListener("click", () => {
         examState.currentIndex += 1;
         renderQuestion();
         scrollToQuestionPanel();
+        return;
+    }
+
+    if (!allQuestionsAnswered()) {
         return;
     }
 
